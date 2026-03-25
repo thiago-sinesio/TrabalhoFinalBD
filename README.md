@@ -92,6 +92,9 @@ CREATE TABLE emprestimo (
 );
 
 Utilização dos INSERTS 
+
+
+
 -- AUTORES
 INSERT INTO autor (nome) VALUES
 ('Machado de Assis'),
