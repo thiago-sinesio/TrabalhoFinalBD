@@ -45,7 +45,7 @@ SELECT l.titulo, SUM(e.valor_emprestimo) AS total_arrecadado
 FROM livro l
 INNER JOIN emprestimo e 
     ON l.id_livro = e.id_livro
-WHERE l.id_livro = 2
+WHERE l.id_livro = 3
 GROUP BY l.titulo;
 
 
