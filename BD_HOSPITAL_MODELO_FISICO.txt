@@ -2,10 +2,6 @@ PROJETO FINAL BANCO DE DADOS HOSPITAL
 
 Criacao de Tabelas
 
-PROJETO FINAL BANCO DE DADOS HOSPITAL
-
-Criacao de Tabelas
-
 CREATE TYPE status_leito AS ENUM ('ocupado', 'livre', 'manutencao');
 CREATE TYPE turno_enfermeira AS ENUM ('manha', 'tarde', 'noite');
 CREATE TYPE tipo_ala AS ENUM ('UTI', 'enfermaria', 'pediatria', 'cirurgia', 'maternidade');
