@@ -55,25 +55,22 @@ CREATE TABLE medico (
 
 CREATE TABLE ala (
     id_ala SERIAL PRIMARY KEY,
-    nome VARCHAR(100),
     tipo tipo_ala NOT NULL,
-    numero_leitos_disponiveis INT,
-    id_hospital INT REFERENCES hospital(id_hospital),
-    id_enfermeira_responsavel INT
+    qtd_leitos_disponiveis INT,
+    id_hospital INT,
+    FOREIGN KEY (id_hospital) REFERENCES hospital(id_hospital)
 );
 
 CREATE TABLE enfermeira (
     id_enfermeira SERIAL PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
-    cre VARCHAR(20) NOT NULL UNIQUE,
+    cre VARCHAR(20) UNIQUE NOT NULL,
     turno turno_enfermeira NOT NULL,
-    id_ala INT REFERENCES ala(id_ala),
-    id_chefe INT REFERENCES enfermeira(id_enfermeira)
+    id_ala INT,
+    id_chefe INT,
+    FOREIGN KEY (id_ala) REFERENCES ala(id_ala),
+    FOREIGN KEY (id_chefe) REFERENCES enfermeira(id_enfermeira)
 );
-
---Ala e enfermeira PRECISAM ser criadas nessa ordem pra não ter erro e dar esse alter table depois.
-ALTER TABLE ala ADD CONSTRAINT fk_ala_enfermeira 
-FOREIGN KEY (id_enfermeira_responsavel) REFERENCES enfermeira(id_enfermeira);
 
 CREATE TABLE leito (
     id_leito SERIAL PRIMARY KEY,
@@ -183,21 +180,20 @@ CREATE TABLE pesquisa_satisfacao (
 
 
 
-- INSERTS
-- =====================
+-- =====================
 -- HOSPITAL
 -- =====================
-INSERT INTO hospital (cnpj) VALUES
-('11111111111111'),
-('22222222222222'),
-('33333333333333'),
-('44444444444444'),
-('55555555555555'),
-('66666666666666'),
-('77777777777777'),
-('88888888888888'),
-('99999999999999'),
-('10101010101010');
+INSERT INTO hospital (nome, cnpj) VALUES
+('Hospital Central', '11111111111111'),
+('Hospital Infantil', '22222222222222'),
+('Maternidade Vida', '33333333333333'),
+('Hospital do Trauma', '44444444444444'),
+('Hospital São Lucas', '55555555555555'),
+('Clínica da Cidade', '66666666666666'),
+('Hospital Regional', '77777777777777'),
+('Pronto Socorro Oeste', '88888888888888'),
+('Hospital da Visão', '99999999999999'),
+('Hospital do Coração', '10101010101010');
 
 -- =====================
 -- PLANO_SAUDE
@@ -215,9 +211,9 @@ INSERT INTO plano_saude (nome, telefone, cobertura) VALUES
 ('MedSenior',NULL,'regional');
 
 -- =====================
--- HOSPITAL_PLANO
+-- CREDENCIAMENTO_HOSPITAL_PLANO
 -- =====================
-INSERT INTO hospital_plano VALUES
+INSERT INTO credenciamento_hospital_plano (id_hospital, id_plano, data_credenciamento) VALUES
 (1,1,'2026-01-10'),
 (1,2,'2026-01-15'),
 (2,3,'2026-01-20'),
@@ -337,7 +333,7 @@ INSERT INTO medicamento (nome) VALUES
 -- =====================
 -- PRESCRICAO
 -- =====================
-INSERT INTO prescricao (data, dosagem, id_atendimento, id_medicamento) VALUES
+INSERT INTO prescricao (data_prescricao, dosagem, id_atendimento, id_medicamento) VALUES
 ('2026-01-10','1x',1,1),
 ('2026-01-15','2x',2,2),
 ('2026-02-05','1x',3,3),
@@ -396,9 +392,9 @@ INSERT INTO exame
 ('imagem',250,'eco',NULL,'2026-04-10',NULL,10,10,10);
 
 -- =====================
--- FATURAMENTO
+-- FATURA
 -- =====================
-INSERT INTO faturamento 
+INSERT INTO fatura 
 (valor, status, forma_pagamento, data_emissao, data_vencimento, id_paciente, id_atendimento, id_exame, id_internacao) VALUES
 (100,'pendente','cartao','2026-01-10','2026-01-20',1,1,NULL,NULL),
 (200,'pago','pix','2026-01-20','2026-01-30',2,NULL,2,NULL),
@@ -409,7 +405,7 @@ INSERT INTO faturamento
 (220,'pago','cartao','2026-03-25','2026-04-05',7,7,NULL,NULL),
 (90,'pendente','pix','2026-04-01','2026-04-10',8,NULL,8,NULL),
 (400,'em_analise','cartao','2026-04-05','2026-04-15',9,NULL,NULL,9),
-(250,'pendente','pix','2026-04-10','2026-04-20',10,NULL,NULL,NULL);
+(250,'pendente','pix','2026-04-10','2026-04-20',10,NULL,10,NULL);
 
 -- =====================
 -- PESQUISA_SATISFACAO
