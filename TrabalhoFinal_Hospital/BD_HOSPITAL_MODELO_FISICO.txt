@@ -484,13 +484,16 @@ GROUP BY m.nome
 ORDER BY total desc
 LIMIT 1;
 
-Consulta 6; Revisar ??????????
+Consulta 6; 
 SELECT a.id_ala,
-ROUND(
-    (COUNT(CASE WHEN l.status = 'ocupado' THEN 1 END) * 100.0) 
-    / NULLIF(COUNT(l.id_leito),0), 2) AS porcentagem_ocupacao
+       SUM(CASE 
+             WHEN l.status = 'ocupado' THEN 1 
+             ELSE 0 
+           END)
+           
+           * 100.0 / COUNT(*) AS porcentagem_ocupação
 FROM ala a
-LEFT JOIN leito l ON a.id_ala = l.id_ala
+JOIN leito l ON a.id_ala = l.id_ala
 GROUP BY a.id_ala;
 
 Consulta 7;
@@ -499,7 +502,7 @@ from fatura f
 inner join paciente p on f.id_paciente = p.id_paciente 
 inner join plano_saude ps on ps.id_plano = p.id_plano 
 WHERE f.data_emissao >= '2026-01-01'
-  AND f.data_emissao < '2027-01-01'
+  AND f.data_emissao < '2026-12-31'
   group by ps.nome , f.data_emissao
 
 Consulta 8;
