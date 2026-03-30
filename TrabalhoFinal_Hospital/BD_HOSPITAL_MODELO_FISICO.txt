@@ -456,7 +456,7 @@ Consulta 3:
 SELECT id_exame, tipo, resultado, data_solicitacao, data_resultado
 FROM exame
 WHERE data_resultado IS NULL
-AND data_solicitacao BETWEEN '2026-03-01' AND '2026-03-30';
+AND DATE_TRUNC('month', data_solicitacao) = DATE_TRUNC('month', CURRENT_DATE)
 
 select l.nome ,count(e.id_exame)as quantidade
 from exame e
